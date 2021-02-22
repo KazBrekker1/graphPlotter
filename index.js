@@ -106,7 +106,11 @@ canvas.addEventListener('touchmove', (e) => {
 }, false);
 
 let touchleave = () => {
-  console.log("You're not touching the element anymore");
+  if (isDrawing === true) {
+    x = 0;
+    y = 0;
+    isDrawing = false;
+  }
 }
 
 displayGrid()
