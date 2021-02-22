@@ -15,11 +15,12 @@ let counter = 0
 let x = 0;
 let y = 0;
 let array1 = []
-let count = document.getElementById("count")
+let currentCount = document.getElementById("count")
 let redCount = document.getElementById("redCount")
 let blueCount = document.getElementById("blueCount")
 let currentLabel = document.getElementById("currentLabel")
 let canvas = document.getElementById("canvas")
+let reset = document.getElementById("reset")
 let switchLabel = document.getElementById("switchLabel")
 let rect = canvas.getBoundingClientRect();
 let ctx = canvas.getContext("2d");
@@ -68,7 +69,7 @@ canvas.addEventListener('mousemove', e => {
   if (isDrawing === true) {
     x = e.clientX - rect.left;
     y = e.clientY - rect.top;
-    counter % 3 == 0 ? drawCoordinates(x, y) : null
+    counter % 2 == 0 ? drawCoordinates(x, y) : null
   }
 });
 canvas.addEventListener('mouseup', e => {
@@ -85,6 +86,17 @@ window.addEventListener('mouseup', e => {
     isDrawing = false;
   }
 });
+reset.addEventListener("click", e => {
+  array1 = []
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  displayGrid()
+  redCount.innerText = `Red Count: 0`
+  blueCount.innerText = `Blue Count: 0`
+  currentCount.innerText = `Count: 0`
+})
+
+
+// ==================================Touch Combatibility================================== //
 
 var element;
 canvas.addEventListener('touchstart', (e) => {
@@ -93,7 +105,7 @@ canvas.addEventListener('touchstart', (e) => {
   element = document.elementFromPoint(touch.pageX, touch.pageY);
   x = touch.pageX - rect.left;
   y = touch.pageY - rect.top;
-  counter % 3 == 0 ? drawCoordinates(x, y) : null
+  counter % 2 == 0 ? drawCoordinates(x, y) : null
   isDrawing = true;
 }, false);
 
@@ -104,7 +116,7 @@ canvas.addEventListener('touchmove', (e) => {
     let touch = e.touches[0];
     x = touch.pageX - rect.left;
     y = touch.pageY - rect.top;
-    counter % 3 == 0 ? drawCoordinates(x, y) : null
+    counter % 2 == 0 ? drawCoordinates(x, y) : null
     if (element !== document.elementFromPoint(touch.pageX, touch.pageY)) {
       touchleave();
     }
@@ -125,7 +137,7 @@ drawCoordinates = (x, y) => {
   let x_axis = (x / canvas.width) * 10
   let y_axis = ((canvas.height - y) / canvas.height) * 10
   array1.push([x_axis.toFixed(1), y_axis.toFixed(1), option ? 1 : 0])
-  count.innerText = `Count: ${array1.length}`
+  currentCount.innerText = `Count: ${array1.length}`
   redCount.innerText = `Red Count: ${array1.filter(item => item[2] == 1).length}`
   blueCount.innerText = `Blue Count: ${array1.filter(item => item[2] == 0).length}`
   let pointSize = 3; // Change according to the size of the point.
