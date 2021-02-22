@@ -11,6 +11,7 @@
   If There are bugs send at: ye1800846@qu.edu.qa
 */
 
+let counter = 0
 let x = 0;
 let y = 0;
 let array1 = []
@@ -63,10 +64,11 @@ canvas.addEventListener('mousedown', e => {
   isDrawing = true;
 });
 canvas.addEventListener('mousemove', e => {
+  counter += 1
   if (isDrawing === true) {
-    drawCoordinates(x, y)
     x = e.clientX - rect.left;
     y = e.clientY - rect.top;
+    counter % 3 == 0 ? drawCoordinates(x, y) : null
   }
 });
 canvas.addEventListener('mouseup', e => {
@@ -84,24 +86,25 @@ window.addEventListener('mouseup', e => {
   }
 });
 
-let element;
+var element;
 canvas.addEventListener('touchstart', (e) => {
   e.preventDefault();
   let touch = e.touches[0];
   element = document.elementFromPoint(touch.pageX, touch.pageY);
   x = touch.pageX - rect.left;
   y = touch.pageY - rect.top;
-  drawCoordinates(x, y)
+  counter % 3 == 0 ? drawCoordinates(x, y) : null
   isDrawing = true;
 }, false);
 
 canvas.addEventListener('touchmove', (e) => {
   e.preventDefault();
+  counter += 1
   if (isDrawing === true) {
-    drawCoordinates(x, y)
     let touch = e.touches[0];
     x = touch.pageX - rect.left;
     y = touch.pageY - rect.top;
+    counter % 3 == 0 ? drawCoordinates(x, y) : null
     if (element !== document.elementFromPoint(touch.pageX, touch.pageY)) {
       touchleave();
     }
