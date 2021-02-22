@@ -88,6 +88,7 @@ let element;
 canvas.addEventListener('touchstart', (e) => {
   e.preventDefault();
   let touch = e.touches[0];
+  element = document.elementFromPoint(touch.pageX, touch.pageY);
   x = touch.pageX - rect.left;
   y = touch.pageY - rect.top;
   drawCoordinates(x, y)
@@ -101,6 +102,9 @@ canvas.addEventListener('touchmove', (e) => {
     let touch = e.touches[0];
     x = touch.pageX - rect.left;
     y = touch.pageY - rect.top;
+    if (element !== document.elementFromPoint(touch.pageX, touch.pageY)) {
+      touchleave();
+    }
   }
 
 }, false);
