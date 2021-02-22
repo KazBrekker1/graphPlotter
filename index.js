@@ -83,6 +83,32 @@ window.addEventListener('mouseup', e => {
     isDrawing = false;
   }
 });
+
+let element;
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  let touch = e.touches[0];
+  x = touch.pageX - rect.left;
+  y = touch.pageY - rect.top;
+  drawCoordinates(x, y)
+  isDrawing = true;
+}, false);
+
+canvas.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  if (isDrawing === true) {
+    drawCoordinates(x, y)
+    let touch = e.touches[0];
+    x = touch.pageX - rect.left;
+    y = touch.pageY - rect.top;
+  }
+
+}, false);
+
+let touchleave = () => {
+  console.log("You're not touching the element anymore");
+}
+
 displayGrid()
 drawCoordinates = (x, y) => {
   let x_axis = (x / canvas.width) * 10
